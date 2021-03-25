@@ -20,3 +20,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('search', [PropertyController::class, 'search']);
+Route::get('property/options', [PropertyController::class, 'getOptions']);

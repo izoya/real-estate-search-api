@@ -10,6 +10,14 @@ export default new Vuex.Store({
         error: '',
         searchResult: [],
         noResultMessage: '',
+        options: {
+            'priceMin': 0,
+            'priceMax': 0,
+            'bedrooms': 5,
+            'bathrooms': 5,
+            'storeys': 5,
+            'garages': 5,
+        },
     },
     getters: {
     },
@@ -38,6 +46,17 @@ export default new Vuex.Store({
                 })
 
         },
+        fetchOptions({ commit }) {
+            axios.get('/api/property/options')
+                .then((response) => {
+                    if (response.data.success === true && response.data.data.length !== 0) {
+                        commit('SET_OPTIONS', response.data.data);
+                    }
+                })
+                .catch((e) => {
+                    commit('SET_ERROR', e);
+                });
+        },
         clearError: ({ commit }) => {
             commit('SET_ERROR', '');
         },
@@ -51,6 +70,11 @@ export default new Vuex.Store({
         },
         SET_NO_RESULT_MESSAGE(state) {
             state.noResultMessage = 'No results were found';
+        },
+        SET_OPTIONS(state, data) {
+            data.priceMin = Math.floor(data.priceMin / 1000) * 1000;
+            data.priceMax = Math.ceil(data.priceMax / 1000) * 1000;
+            state.options = {...data};
         },
     },
 });
