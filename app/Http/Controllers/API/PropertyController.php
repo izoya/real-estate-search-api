@@ -19,7 +19,8 @@ class PropertyController extends BaseController
         );
 
         if ($validator->fails()) {
-            return $this->sendError('Validation Error.', $validator->errors());
+
+            return $this->sendError('Validation Error.', $validator->errors(), 202);
         }
 
         $property = Property::query()->filter($filterObj)->get();

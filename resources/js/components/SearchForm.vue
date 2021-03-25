@@ -4,23 +4,31 @@
             <el-input v-model="form.name" name="name"></el-input>
         </el-form-item>
         <el-form-item label="Bedrooms">
-            <el-select v-model="form.bedrooms" name="bedrooms" placeholder="select bedroom quantity">
-                <el-option v-for="item in 5" :label="item" :value="item" v-bind:key="item"></el-option>
+            <el-select v-model="form.bedrooms" name="bedrooms"
+                       placeholder="select bedroom quantity">
+                <el-option v-for="item in 5" :label="item"
+                           :value="item" v-bind:key="item"></el-option>
             </el-select>
         </el-form-item>
         <el-form-item label="Bathrooms">
-            <el-select v-model="form.bathrooms" name="bathrooms" placeholder="select bathrooms quantity">
-                <el-option v-for="item in 5" :label="item" :value="item" v-bind:key="item"></el-option>
+            <el-select v-model="form.bathrooms" name="bathrooms"
+                       placeholder="select bathrooms quantity">
+                <el-option v-for="item in 5" :label="item"
+                           :value="item" v-bind:key="item"></el-option>
             </el-select>
         </el-form-item>
         <el-form-item label="Storeys">
-            <el-select v-model="form.storeys" name="storeys" placeholder="how many storeys">
-                <el-option v-for="item in 3" :label="item" :value="item" v-bind:key="item"></el-option>
+            <el-select v-model="form.storeys" name="storeys"
+                       placeholder="how many storeys">
+                <el-option v-for="item in 3" :label="item"
+                           :value="item" v-bind:key="item"></el-option>
             </el-select>
         </el-form-item>
         <el-form-item label="Garages">
-            <el-select v-model="form.garages" name="garages" placeholder="select garages quantity">
-                <el-option v-for="item in 3" :label="item" :value="item" v-bind:key="item"></el-option>
+            <el-select v-model="form.garages" name="garages"
+                       placeholder="select garages quantity">
+                <el-option v-for="item in 3" :label="item"
+                           :value="item" v-bind:key="item"></el-option>
             </el-select>
         </el-form-item>
         <el-form-item label="Price">
@@ -40,6 +48,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
 export default {
     name: 'SearchForm',
     data: function () {
@@ -58,13 +68,15 @@ export default {
         }
     },
     methods: {
+        ...mapActions(['search']),
         onSubmit() {
-            console.log(this.$refs.form.model);
+            this.search(this.$refs.form.model);
         },
     },
     beforeMount() {
         this.form.price = [this.minPrice, this.maxPrice];
     },
+
 };
 </script>
 

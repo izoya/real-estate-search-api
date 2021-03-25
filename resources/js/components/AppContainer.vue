@@ -5,8 +5,12 @@
         </el-header>
 
         <el-main>
+            <el-alert v-if="error" :title="error" type="error" show-icon
+                @close="clearError()" style="margin: 1rem 0;">
+            </el-alert>
             <search-form/>
             <el-divider/>
+            <div v-if="noResultMessage"><p>{{ noResultMessage }}</p></div>
             <result-table v-if="searchResult.length"
                           :tableData="searchResult"/>
         </el-main>
@@ -20,40 +24,24 @@
 <script>
 import SearchForm from './SearchForm.vue';
 import ResultTable from './ResultTable.vue';
+import { mapState, mapActions } from 'vuex';
 
 export default {
     name: 'AppContainer',
     components: { ResultTable, SearchForm },
     data: function () {
         return {
-            searchResult: [{
-                name: 'The Victoria',
-                price: 374662,
-                bedrooms: 4,
-                bathrooms: 2,
-                storeys: 2,
-                garages: 2,
-            }, {
-                name: 'The Xavier',
-                price: 513268,
-                bedrooms: 4,
-                bathrooms: 2,
-                storeys: 1,
-                garages: 2
-            },],
-        }
+        };
     },
     computed: {
-
+        ...mapState(['error', 'searchResult', 'noResultMessage']),
     },
     methods: {
-
-
+        ...mapActions(['clearError']),
     },
     mounted() {
-
-    }
-};
+    },
+}
 </script>
 
 <style scoped lang="sass">
