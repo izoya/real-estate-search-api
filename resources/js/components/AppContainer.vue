@@ -5,6 +5,7 @@
         </el-header>
 
         <el-main>
+            <search-form/>
         </el-main>
 
         <el-footer>
@@ -14,10 +15,11 @@
 </template>
 
 <script>
+import SearchForm from "./SearchForm";
 
 export default {
     name: 'AppContainer',
-    components: {},
+    components: {SearchForm },
     data: function () {
         return {
 
