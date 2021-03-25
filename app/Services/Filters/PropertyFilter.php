@@ -8,6 +8,14 @@ use Illuminate\Database\Eloquent\Builder;
 
 class PropertyFilter extends QueryFilter
 {
+    private array $validationRules = [
+        'name' => 'nullable|string',
+        'price' => 'nullable|regex:/^\d+,\d+$/',
+        'bedrooms' => 'nullable|integer',
+        'bathrooms' => 'nullable|integer',
+        'storeys' => 'nullable|integer',
+        'garages' => 'nullable|integer',
+    ];
 
     public function name(string $keyword): Builder
     {
@@ -47,13 +55,6 @@ class PropertyFilter extends QueryFilter
 
     public function getValidationRules(): array
     {
-        return [
-            'name'      => 'nullable|string',
-            'price'     => 'nullable|regex:/^\d+,\d+$/',
-            'bedrooms'  => 'nullable|integer',
-            'bathrooms' => 'nullable|integer',
-            'storeys'   => 'nullable|integer',
-            'garages'   => 'nullable|integer',
-        ];
+        return $this->validationRules;
     }
 }
