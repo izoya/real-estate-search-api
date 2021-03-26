@@ -10,6 +10,7 @@ export default new Vuex.Store({
         error: '',
         searchResult: [],
         noResultMessage: '',
+        loading: false,
         options: {
             'priceMin': 0,
             'priceMax': 0,
@@ -23,6 +24,7 @@ export default new Vuex.Store({
     },
     actions: {
         search({ commit }, formData) {
+            commit('SET_LOADING_STATE', true);
             let urlParams = '?';
 
             for (let key in formData) {
@@ -40,9 +42,11 @@ export default new Vuex.Store({
                     else {
                         commit('SET_ERROR', response.data.message);
                     }
+                    commit('SET_LOADING_STATE', false);
                 })
                 .catch((e) => {
                     commit('SET_ERROR', e);
+                    commit('SET_LOADING_STATE', false);
                 })
 
         },
@@ -57,7 +61,7 @@ export default new Vuex.Store({
                     commit('SET_ERROR', e);
                 });
         },
-        clearError: ({ commit }) => {
+        clearError({ commit }) {
             commit('SET_ERROR', '');
         },
     },
@@ -66,7 +70,11 @@ export default new Vuex.Store({
             state.error = data;
         },
         SET_SEARCH_RESULT(state, data) {
-            state.searchResult = [...data];
+            state.searchResult = data.map((item) => {
+                item.price = (+item.price).toLocaleString();
+                return item;
+
+            });
         },
         SET_NO_RESULT_MESSAGE(state) {
             state.noResultMessage = 'No results were found';
@@ -76,5 +84,8 @@ export default new Vuex.Store({
             data.priceMax = Math.ceil(data.priceMax / 1000) * 1000;
             state.options = {...data};
         },
+        SET_LOADING_STATE(state, data) {
+            state.loading = data;
+        }
     },
 });
